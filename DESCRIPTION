@@ -1,0 +1,16 @@
+Package: lapacker
+Type: Package
+Title: The Missing 'LAPACKE' Interface for R
+Version: 0.1.0
+Author: Yi Pan [aut, cre]
+Maintainer: Yi Pan <ypan1988@gmail.com>
+Description: Provide the 'lapacke.h' header file for R. 'LAPACKE' is a
+    collection of wrappers that provide a C interface to the FORTRAN 'LAPACK'
+    library. Currently only the double precision / double complex 'LAPACK'
+    routines are supported.
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+Imports: Rcpp (>= 1.0.0)
+LinkingTo: Rcpp
+RoxygenNote: 6.0.1
