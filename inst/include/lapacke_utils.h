@@ -34,7 +34,7 @@
 #ifndef _LAPACKE_UTILS_H_
 #define _LAPACKE_UTILS_H_
 
-#include "lapacke.h"
+// #include "lapacke.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -286,291 +286,447 @@ void LAPACKE_ztr_trans( int matrix_layout, char uplo, char diag, lapack_int n,
 #define LAPACK_SISNAN( x ) ( x != x )
 #define LAPACK_DISNAN( x ) ( x != x )
 #define LAPACK_CISNAN( x ) ( LAPACK_SISNAN(*((float*) &x)) || \
-                              LAPACK_SISNAN(*(((float*) &x)+1)) )
+                        LAPACK_SISNAN(*(((float*) &x)+1)) )
 #define LAPACK_ZISNAN( x ) ( LAPACK_DISNAN(*((double*)&x)) || \
-                              LAPACK_DISNAN(*(((double*)&x)+1)) )
+                      LAPACK_DISNAN(*(((double*)&x)+1)) )
 
 /* NaN checkers for vectors */
 lapack_logical LAPACKE_c_nancheck( lapack_int n,
-                                    const lapack_complex_float *x,
-                                    lapack_int incx );
+                                   const lapack_complex_float *x,
+                                   lapack_int incx );
 lapack_logical LAPACKE_d_nancheck( lapack_int n,
-                                    const double *x,
-                                    lapack_int incx );
+                                   const double *x,
+                                   lapack_int incx );
 lapack_logical LAPACKE_s_nancheck( lapack_int n,
-                                    const float *x,
-                                    lapack_int incx );
+                                   const float *x,
+                                   lapack_int incx );
 lapack_logical LAPACKE_z_nancheck( lapack_int n,
-                                    const lapack_complex_double *x,
-                                    lapack_int incx );
+                                   const lapack_complex_double *x,
+                                   lapack_int incx );
 /* NaN checkers for matrices */
 lapack_logical LAPACKE_cgb_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n, lapack_int kl,
-                                      lapack_int ku,
-                                      const lapack_complex_float *ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kl,
+                                     lapack_int ku,
+                                     const lapack_complex_float *ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_cge_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n,
-                                      const lapack_complex_float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_cgg_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n,
-                                      const lapack_complex_float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_cgt_nancheck( lapack_int n,
-                                      const lapack_complex_float *dl,
-                                      const lapack_complex_float *d,
-                                      const lapack_complex_float *du );
+                                     const lapack_complex_float *dl,
+                                     const lapack_complex_float *d,
+                                     const lapack_complex_float *du );
 lapack_logical LAPACKE_chb_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n, lapack_int kd,
-                                      const lapack_complex_float* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const lapack_complex_float* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_che_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const lapack_complex_float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_chp_nancheck( lapack_int n,
-                                      const lapack_complex_float *ap );
+                                     const lapack_complex_float *ap );
 lapack_logical LAPACKE_chs_nancheck( int matrix_layout, lapack_int n,
-                                      const lapack_complex_float *a,
-                                      lapack_int lda );
+                                     const lapack_complex_float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_cpb_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n, lapack_int kd,
-                                      const lapack_complex_float* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const lapack_complex_float* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_cpf_nancheck( lapack_int n,
-                                      const lapack_complex_float *a );
+                                     const lapack_complex_float *a );
 lapack_logical LAPACKE_cpo_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const lapack_complex_float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_cpp_nancheck( lapack_int n,
-                                      const lapack_complex_float *ap );
+                                     const lapack_complex_float *ap );
 lapack_logical LAPACKE_cpt_nancheck( lapack_int n,
-                                      const float *d,
-                                      const lapack_complex_float *e );
+                                     const float *d,
+                                     const lapack_complex_float *e );
 lapack_logical LAPACKE_csp_nancheck( lapack_int n,
-                                      const lapack_complex_float *ap );
+                                     const lapack_complex_float *ap );
 lapack_logical LAPACKE_cst_nancheck( lapack_int n,
-                                      const lapack_complex_float *d,
-                                      const lapack_complex_float *e );
+                                     const lapack_complex_float *d,
+                                     const lapack_complex_float *e );
 lapack_logical LAPACKE_csy_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const lapack_complex_float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_ctb_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n, lapack_int kd,
-                                      const lapack_complex_float* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const lapack_complex_float* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_ctf_nancheck( int matrix_layout, char transr,
-                                      char uplo, char diag,
-                                      lapack_int n,
-                                      const lapack_complex_float *a );
+                                     char uplo, char diag,
+                                     lapack_int n,
+                                     const lapack_complex_float *a );
 lapack_logical LAPACKE_ctp_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n,
-                                      const lapack_complex_float *ap );
+                                     lapack_int n,
+                                     const lapack_complex_float *ap );
 lapack_logical LAPACKE_ctr_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n,
-                                      const lapack_complex_float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_float *a,
+                                     lapack_int lda );
 
 lapack_logical LAPACKE_dgb_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n, lapack_int kl,
-                                      lapack_int ku,
-                                      const double *ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kl,
+                                     lapack_int ku,
+                                     const double *ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_dge_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n,
-                                      const double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_dgg_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n,
-                                      const double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_dgt_nancheck( lapack_int n,
-                                      const double *dl,
-                                      const double *d,
-                                      const double *du );
+                                     const double *dl,
+                                     const double *d,
+                                     const double *du );
 lapack_logical LAPACKE_dhs_nancheck( int matrix_layout, lapack_int n,
-                                      const double *a,
-                                      lapack_int lda );
+                                     const double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_dpb_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n, lapack_int kd,
-                                      const double* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const double* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_dpf_nancheck( lapack_int n,
-                                      const double *a );
+                                     const double *a );
 lapack_logical LAPACKE_dpo_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_dpp_nancheck( lapack_int n,
-                                      const double *ap );
+                                     const double *ap );
 lapack_logical LAPACKE_dpt_nancheck( lapack_int n,
-                                      const double *d,
-                                      const double *e );
+                                     const double *d,
+                                     const double *e );
 lapack_logical LAPACKE_dsb_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n, lapack_int kd,
-                                      const double* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const double* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_dsp_nancheck( lapack_int n,
-                                      const double *ap );
+                                     const double *ap );
 lapack_logical LAPACKE_dst_nancheck( lapack_int n,
-                                      const double *d,
-                                      const double *e );
+                                     const double *d,
+                                     const double *e );
 lapack_logical LAPACKE_dsy_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_dtb_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n, lapack_int kd,
-                                      const double* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const double* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_dtf_nancheck( int matrix_layout, char transr,
-                                      char uplo, char diag,
-                                      lapack_int n,
-                                      const double *a );
+                                     char uplo, char diag,
+                                     lapack_int n,
+                                     const double *a );
 lapack_logical LAPACKE_dtp_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n,
-                                      const double *ap );
+                                     lapack_int n,
+                                     const double *ap );
 lapack_logical LAPACKE_dtr_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n,
-                                      const double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const double *a,
+                                     lapack_int lda );
 
 lapack_logical LAPACKE_sgb_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n, lapack_int kl,
-                                      lapack_int ku,
-                                      const float *ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kl,
+                                     lapack_int ku,
+                                     const float *ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_sge_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n,
-                                      const float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_sgg_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n,
-                                      const float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_sgt_nancheck( lapack_int n,
-                                      const float *dl,
-                                      const float *d,
-                                      const float *du );
+                                     const float *dl,
+                                     const float *d,
+                                     const float *du );
 lapack_logical LAPACKE_shs_nancheck( int matrix_layout, lapack_int n,
-                                      const float *a,
-                                      lapack_int lda );
+                                     const float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_spb_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n, lapack_int kd,
-                                      const float* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const float* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_spf_nancheck( lapack_int n,
-                                      const float *a );
+                                     const float *a );
 lapack_logical LAPACKE_spo_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_spp_nancheck( lapack_int n,
-                                      const float *ap );
+                                     const float *ap );
 lapack_logical LAPACKE_spt_nancheck( lapack_int n,
-                                      const float *d,
-                                      const float *e );
+                                     const float *d,
+                                     const float *e );
 lapack_logical LAPACKE_ssb_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n, lapack_int kd,
-                                      const float* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const float* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_ssp_nancheck( lapack_int n,
-                                      const float *ap );
+                                     const float *ap );
 lapack_logical LAPACKE_sst_nancheck( lapack_int n,
-                                      const float *d,
-                                      const float *e );
+                                     const float *d,
+                                     const float *e );
 lapack_logical LAPACKE_ssy_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const float *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_stb_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n, lapack_int kd,
-                                      const float* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const float* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_stf_nancheck( int matrix_layout, char transr,
-                                      char uplo, char diag,
-                                      lapack_int n,
-                                      const float *a );
+                                     char uplo, char diag,
+                                     lapack_int n,
+                                     const float *a );
 lapack_logical LAPACKE_stp_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n,
-                                      const float *ap );
+                                     lapack_int n,
+                                     const float *ap );
 lapack_logical LAPACKE_str_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n,
-                                      const float *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const float *a,
+                                     lapack_int lda );
 
 lapack_logical LAPACKE_zgb_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n, lapack_int kl,
-                                      lapack_int ku,
-                                      const lapack_complex_double *ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kl,
+                                     lapack_int ku,
+                                     const lapack_complex_double *ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_zge_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n,
-                                      const lapack_complex_double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_zgg_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n,
-                                      const lapack_complex_double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_zgt_nancheck( lapack_int n,
-                                      const lapack_complex_double *dl,
-                                      const lapack_complex_double *d,
-                                      const lapack_complex_double *du );
+                                     const lapack_complex_double *dl,
+                                     const lapack_complex_double *d,
+                                     const lapack_complex_double *du );
 lapack_logical LAPACKE_zhb_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n, lapack_int kd,
-                                      const lapack_complex_double* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const lapack_complex_double* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_zhe_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const lapack_complex_double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_zhp_nancheck( lapack_int n,
-                                      const lapack_complex_double *ap );
+                                     const lapack_complex_double *ap );
 lapack_logical LAPACKE_zhs_nancheck( int matrix_layout, lapack_int n,
-                                      const lapack_complex_double *a,
-                                      lapack_int lda );
+                                     const lapack_complex_double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_zpb_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n, lapack_int kd,
-                                      const lapack_complex_double* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const lapack_complex_double* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_zpf_nancheck( lapack_int n,
-                                      const lapack_complex_double *a );
+                                     const lapack_complex_double *a );
 lapack_logical LAPACKE_zpo_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const lapack_complex_double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_zpp_nancheck( lapack_int n,
-                                      const lapack_complex_double *ap );
+                                     const lapack_complex_double *ap );
 lapack_logical LAPACKE_zpt_nancheck( lapack_int n,
-                                      const double *d,
-                                      const lapack_complex_double *e );
+                                     const double *d,
+                                     const lapack_complex_double *e );
 lapack_logical LAPACKE_zsp_nancheck( lapack_int n,
-                                      const lapack_complex_double *ap );
+                                     const lapack_complex_double *ap );
 lapack_logical LAPACKE_zst_nancheck( lapack_int n,
-                                      const lapack_complex_double *d,
-                                      const lapack_complex_double *e );
+                                     const lapack_complex_double *d,
+                                     const lapack_complex_double *e );
 lapack_logical LAPACKE_zsy_nancheck( int matrix_layout, char uplo,
-                                      lapack_int n,
-                                      const lapack_complex_double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_double *a,
+                                     lapack_int lda );
 lapack_logical LAPACKE_ztb_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n, lapack_int kd,
-                                      const lapack_complex_double* ab,
-                                      lapack_int ldab );
+                                     lapack_int n, lapack_int kd,
+                                     const lapack_complex_double* ab,
+                                     lapack_int ldab );
 lapack_logical LAPACKE_ztf_nancheck( int matrix_layout, char transr,
-                                      char uplo, char diag,
-                                      lapack_int n,
-                                      const lapack_complex_double *a );
+                                     char uplo, char diag,
+                                     lapack_int n,
+                                     const lapack_complex_double *a );
 lapack_logical LAPACKE_ztp_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n,
-                                      const lapack_complex_double *ap );
+                                     lapack_int n,
+                                     const lapack_complex_double *ap );
 lapack_logical LAPACKE_ztr_nancheck( int matrix_layout, char uplo, char diag,
-                                      lapack_int n,
-                                      const lapack_complex_double *a,
-                                      lapack_int lda );
+                                     lapack_int n,
+                                     const lapack_complex_double *a,
+                                     lapack_int lda );
+
+/* Error handler */
+#include "lapacke_utils/lapacke_xerbla.h"
+
+/* Compare two chars (case-insensitive) */
+#include "lapacke_utils/lapacke_lsame.h"
+
+/* Functions to convert column-major to row-major 2d arrays and vice versa. */
+#include "lapacke_utils/lapacke_cgb_trans.h"
+#include "lapacke_utils/lapacke_cge_trans.h"
+#include "lapacke_utils/lapacke_cgg_trans.h"
+#include "lapacke_utils/lapacke_chb_trans.h"
+#include "lapacke_utils/lapacke_che_trans.h"
+#include "lapacke_utils/lapacke_chp_trans.h"
+#include "lapacke_utils/lapacke_chs_trans.h"
+#include "lapacke_utils/lapacke_cpb_trans.h"
+#include "lapacke_utils/lapacke_cpf_trans.h"
+#include "lapacke_utils/lapacke_cpo_trans.h"
+#include "lapacke_utils/lapacke_cpp_trans.h"
+#include "lapacke_utils/lapacke_csp_trans.h"
+#include "lapacke_utils/lapacke_csy_trans.h"
+#include "lapacke_utils/lapacke_ctb_trans.h"
+#include "lapacke_utils/lapacke_ctf_trans.h"
+#include "lapacke_utils/lapacke_ctp_trans.h"
+#include "lapacke_utils/lapacke_ctr_trans.h"
+#include "lapacke_utils/lapacke_dgb_trans.h"
+#include "lapacke_utils/lapacke_dge_trans.h"
+#include "lapacke_utils/lapacke_dgg_trans.h"
+#include "lapacke_utils/lapacke_dhs_trans.h"
+#include "lapacke_utils/lapacke_dpb_trans.h"
+#include "lapacke_utils/lapacke_dpf_trans.h"
+#include "lapacke_utils/lapacke_dpo_trans.h"
+#include "lapacke_utils/lapacke_dpp_trans.h"
+#include "lapacke_utils/lapacke_dsb_trans.h"
+#include "lapacke_utils/lapacke_dsp_trans.h"
+#include "lapacke_utils/lapacke_dsy_trans.h"
+#include "lapacke_utils/lapacke_dtb_trans.h"
+#include "lapacke_utils/lapacke_dtf_trans.h"
+#include "lapacke_utils/lapacke_dtp_trans.h"
+#include "lapacke_utils/lapacke_dtr_trans.h"
+#include "lapacke_utils/lapacke_sgb_trans.h"
+#include "lapacke_utils/lapacke_sge_trans.h"
+#include "lapacke_utils/lapacke_sgg_trans.h"
+#include "lapacke_utils/lapacke_shs_trans.h"
+#include "lapacke_utils/lapacke_spb_trans.h"
+#include "lapacke_utils/lapacke_spf_trans.h"
+#include "lapacke_utils/lapacke_spo_trans.h"
+#include "lapacke_utils/lapacke_spp_trans.h"
+#include "lapacke_utils/lapacke_ssb_trans.h"
+#include "lapacke_utils/lapacke_ssp_trans.h"
+#include "lapacke_utils/lapacke_ssy_trans.h"
+#include "lapacke_utils/lapacke_stb_trans.h"
+#include "lapacke_utils/lapacke_stf_trans.h"
+#include "lapacke_utils/lapacke_stp_trans.h"
+#include "lapacke_utils/lapacke_str_trans.h"
+#include "lapacke_utils/lapacke_zgb_trans.h"
+#include "lapacke_utils/lapacke_zge_trans.h"
+#include "lapacke_utils/lapacke_zgg_trans.h"
+#include "lapacke_utils/lapacke_zhb_trans.h"
+#include "lapacke_utils/lapacke_zhe_trans.h"
+#include "lapacke_utils/lapacke_zhp_trans.h"
+#include "lapacke_utils/lapacke_zhs_trans.h"
+#include "lapacke_utils/lapacke_zpb_trans.h"
+#include "lapacke_utils/lapacke_zpf_trans.h"
+#include "lapacke_utils/lapacke_zpo_trans.h"
+#include "lapacke_utils/lapacke_zpp_trans.h"
+#include "lapacke_utils/lapacke_zsp_trans.h"
+#include "lapacke_utils/lapacke_zsy_trans.h"
+#include "lapacke_utils/lapacke_ztb_trans.h"
+#include "lapacke_utils/lapacke_ztf_trans.h"
+#include "lapacke_utils/lapacke_ztp_trans.h"
+#include "lapacke_utils/lapacke_ztr_trans.h"
+
+/* NaN checkers for vectors */
+#include "lapacke_utils/lapacke_c_nancheck.h"
+#include "lapacke_utils/lapacke_d_nancheck.h"
+#include "lapacke_utils/lapacke_s_nancheck.h"
+#include "lapacke_utils/lapacke_z_nancheck.h"
+
+/* NaN checkers for matrices */
+#include "lapacke_utils/lapacke_cgb_nancheck.h"
+#include "lapacke_utils/lapacke_cge_nancheck.h"
+#include "lapacke_utils/lapacke_cgg_nancheck.h"
+#include "lapacke_utils/lapacke_cgt_nancheck.h"
+#include "lapacke_utils/lapacke_chb_nancheck.h"
+#include "lapacke_utils/lapacke_che_nancheck.h"
+#include "lapacke_utils/lapacke_chp_nancheck.h"
+#include "lapacke_utils/lapacke_chs_nancheck.h"
+#include "lapacke_utils/lapacke_cpb_nancheck.h"
+#include "lapacke_utils/lapacke_cpf_nancheck.h"
+#include "lapacke_utils/lapacke_cpo_nancheck.h"
+#include "lapacke_utils/lapacke_cpp_nancheck.h"
+#include "lapacke_utils/lapacke_cpt_nancheck.h"
+#include "lapacke_utils/lapacke_csp_nancheck.h"
+#include "lapacke_utils/lapacke_cst_nancheck.h"
+#include "lapacke_utils/lapacke_csy_nancheck.h"
+#include "lapacke_utils/lapacke_ctb_nancheck.h"
+#include "lapacke_utils/lapacke_ctf_nancheck.h"
+#include "lapacke_utils/lapacke_ctp_nancheck.h"
+#include "lapacke_utils/lapacke_ctr_nancheck.h"
+#include "lapacke_utils/lapacke_dgb_nancheck.h"
+#include "lapacke_utils/lapacke_dge_nancheck.h"
+#include "lapacke_utils/lapacke_dgg_nancheck.h"
+#include "lapacke_utils/lapacke_dgt_nancheck.h"
+#include "lapacke_utils/lapacke_dhs_nancheck.h"
+#include "lapacke_utils/lapacke_dpb_nancheck.h"
+#include "lapacke_utils/lapacke_dpf_nancheck.h"
+#include "lapacke_utils/lapacke_dpo_nancheck.h"
+#include "lapacke_utils/lapacke_dpp_nancheck.h"
+#include "lapacke_utils/lapacke_dpt_nancheck.h"
+#include "lapacke_utils/lapacke_dsb_nancheck.h"
+#include "lapacke_utils/lapacke_dsp_nancheck.h"
+#include "lapacke_utils/lapacke_dst_nancheck.h"
+#include "lapacke_utils/lapacke_dsy_nancheck.h"
+#include "lapacke_utils/lapacke_dtb_nancheck.h"
+#include "lapacke_utils/lapacke_dtf_nancheck.h"
+#include "lapacke_utils/lapacke_dtp_nancheck.h"
+#include "lapacke_utils/lapacke_dtr_nancheck.h"
+#include "lapacke_utils/lapacke_sgb_nancheck.h"
+#include "lapacke_utils/lapacke_sge_nancheck.h"
+#include "lapacke_utils/lapacke_sgg_nancheck.h"
+#include "lapacke_utils/lapacke_sgt_nancheck.h"
+#include "lapacke_utils/lapacke_shs_nancheck.h"
+#include "lapacke_utils/lapacke_spb_nancheck.h"
+#include "lapacke_utils/lapacke_spf_nancheck.h"
+#include "lapacke_utils/lapacke_spo_nancheck.h"
+#include "lapacke_utils/lapacke_spp_nancheck.h"
+#include "lapacke_utils/lapacke_spt_nancheck.h"
+#include "lapacke_utils/lapacke_ssb_nancheck.h"
+#include "lapacke_utils/lapacke_ssp_nancheck.h"
+#include "lapacke_utils/lapacke_sst_nancheck.h"
+#include "lapacke_utils/lapacke_ssy_nancheck.h"
+#include "lapacke_utils/lapacke_stb_nancheck.h"
+#include "lapacke_utils/lapacke_stf_nancheck.h"
+#include "lapacke_utils/lapacke_stp_nancheck.h"
+#include "lapacke_utils/lapacke_str_nancheck.h"
+#include "lapacke_utils/lapacke_zgb_nancheck.h"
+#include "lapacke_utils/lapacke_zge_nancheck.h"
+#include "lapacke_utils/lapacke_zgg_nancheck.h"
+#include "lapacke_utils/lapacke_zgt_nancheck.h"
+#include "lapacke_utils/lapacke_zhb_nancheck.h"
+#include "lapacke_utils/lapacke_zhe_nancheck.h"
+#include "lapacke_utils/lapacke_zhp_nancheck.h"
+#include "lapacke_utils/lapacke_zhs_nancheck.h"
+#include "lapacke_utils/lapacke_zpb_nancheck.h"
+#include "lapacke_utils/lapacke_zpf_nancheck.h"
+#include "lapacke_utils/lapacke_zpo_nancheck.h"
+#include "lapacke_utils/lapacke_zpp_nancheck.h"
+#include "lapacke_utils/lapacke_zpt_nancheck.h"
+#include "lapacke_utils/lapacke_zsp_nancheck.h"
+#include "lapacke_utils/lapacke_zst_nancheck.h"
+#include "lapacke_utils/lapacke_zsy_nancheck.h"
+#include "lapacke_utils/lapacke_ztb_nancheck.h"
+#include "lapacke_utils/lapacke_ztf_nancheck.h"
+#include "lapacke_utils/lapacke_ztp_nancheck.h"
+#include "lapacke_utils/lapacke_ztr_nancheck.h"
 
 #ifdef __cplusplus
 }
