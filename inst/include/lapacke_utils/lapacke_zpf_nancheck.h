@@ -38,6 +38,7 @@
  * matrix_layout.
  */
 
+inline
 lapack_logical LAPACKE_zpf_nancheck( lapack_int n,
                                       const lapack_complex_double *a )
 {

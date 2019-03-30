@@ -38,6 +38,7 @@
  * This functions does copy diagonal for both unit and non-unit cases.
  */
 
+inline
 void LAPACKE_dtf_trans( int matrix_layout, char transr, char uplo, char diag,
                         lapack_int n, const double *in,
                         double *out )

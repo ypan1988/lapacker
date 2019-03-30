@@ -34,6 +34,7 @@
 
 /* Check a matrix for NaN entries. */
 
+inline
 lapack_logical LAPACKE_zhs_nancheck( int matrix_layout, lapack_int n,
                                       const lapack_complex_double *a,
                                       lapack_int lda )

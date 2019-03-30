@@ -37,6 +37,7 @@
  * column-major(Fortran) layout or vice versa.
  */
 
+inline
 void LAPACKE_dgb_trans( int matrix_layout, lapack_int m, lapack_int n,
                         lapack_int kl, lapack_int ku,
                         const double *in, lapack_int ldin,

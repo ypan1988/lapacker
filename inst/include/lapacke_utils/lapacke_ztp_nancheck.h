@@ -37,6 +37,7 @@
  * check 1d array for NaNs. It doesn't depend upon uplo or matrix_layout.
  */
 
+inline
 lapack_logical LAPACKE_ztp_nancheck( int matrix_layout, char uplo, char diag,
                                       lapack_int n,
                                       const lapack_complex_double *ap )

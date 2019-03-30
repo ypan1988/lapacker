@@ -34,6 +34,7 @@
 
 /* Check a matrix for NaN entries. */
 
+inline
 lapack_logical LAPACKE_dtb_nancheck( int matrix_layout, char uplo, char diag,
                                       lapack_int n, lapack_int kd,
                                       const double* ab,

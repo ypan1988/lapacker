@@ -37,6 +37,7 @@
  * layout or vice versa.
  */
 
+inline
 void LAPACKE_dtr_trans( int matrix_layout, char uplo, char diag, lapack_int n,
                         const double *in, lapack_int ldin,
                         double *out, lapack_int ldout )

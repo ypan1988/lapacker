@@ -34,6 +34,7 @@
 
 /* Check a vector for NaN entries. */
 
+inline
 lapack_logical LAPACKE_d_nancheck( lapack_int n,
                                     const double *x,
                                     lapack_int incx )
