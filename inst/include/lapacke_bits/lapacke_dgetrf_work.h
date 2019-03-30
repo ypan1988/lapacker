@@ -31,9 +31,7 @@
 * Generated November 2015
 *****************************************************************************/
 
-#include "lapacke_utils.h"
-#include <R_ext/Lapack.h>
-
+inline
 lapack_int LAPACKE_dgetrf_work( int matrix_layout, lapack_int m, lapack_int n,
                                 double* a, lapack_int lda, lapack_int* ipiv )
 {

@@ -31,9 +31,7 @@
 * Generated November 2015
 *****************************************************************************/
 
-#include "lapacke_utils.h"
-#include <R_ext/Lapack.h>
-
+inline
 lapack_int LAPACKE_dgels_work( int matrix_layout, char trans, lapack_int m,
                                lapack_int n, lapack_int nrhs, double* a,
                                lapack_int lda, double* b, lapack_int ldb,

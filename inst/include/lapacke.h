@@ -42,6 +42,7 @@
 #endif
 
 #include <stdlib.h>
+#include <R_ext/Lapack.h>
 
 #ifndef lapack_int
 #define lapack_int     int
@@ -147,8 +148,6 @@ typedef lapack_logical (*LAPACK_Z_SELECT2)
 lapack_logical LAPACK_lsame( char* ca,  char* cb,
                               lapack_int lca, lapack_int lcb );
 */
-
-#include <R_ext/Lapack.h>
 
 #include "lapacke_utils.h"
 

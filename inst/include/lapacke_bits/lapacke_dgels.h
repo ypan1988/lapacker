@@ -31,6 +31,7 @@
 * Generated November 2015
 *****************************************************************************/
 
+inline
 lapack_int LAPACKE_dgels( int matrix_layout, char trans, lapack_int m,
                           lapack_int n, lapack_int nrhs, double* a,
                           lapack_int lda, double* b, lapack_int ldb )

@@ -34,6 +34,7 @@
 #include <stdio.h>
 // #include "lapacke_utils.h"
 
+inline
 void LAPACKE_xerbla( const char *name, lapack_int info )
 {
     if( info == LAPACK_WORK_MEMORY_ERROR ) {
