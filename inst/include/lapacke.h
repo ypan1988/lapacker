@@ -12611,6 +12611,19 @@ lapack_int LAPACKE_zhetrs_aa_2stage_work( int matrix_layout, char uplo, lapack_i
 void LAPACKE_set_nancheck( int flag );
 int LAPACKE_get_nancheck( );
 
+#include "lapacke_bits/lapacke_dbdsqr.h"
+#include "lapacke_bits/lapacke_dbdsqr_work.h"
+#include "lapacke_bits/lapacke_ddisna.h"
+#include "lapacke_bits/lapacke_ddisna_work.h"
+#include "lapacke_bits/lapacke_dgbbrd.h"
+#include "lapacke_bits/lapacke_dgbbrd_work.h"
+#include "lapacke_bits/lapacke_dgbcon.h"
+#include "lapacke_bits/lapacke_dgbcon_work.h"
+#include "lapacke_bits/lapacke_dgbequ.h"
+#include "lapacke_bits/lapacke_dgbequ_work.h"
+#include "lapacke_bits/lapacke_dgbrfs.h"
+#include "lapacke_bits/lapacke_dgbrfs_work.h"
+
 #include "lapacke_bits/lapacke_dgels.h"
 #include "lapacke_bits/lapacke_dgels_work.h"
 
