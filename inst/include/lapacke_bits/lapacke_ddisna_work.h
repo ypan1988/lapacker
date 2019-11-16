@@ -31,12 +31,10 @@
 * Generated November, 2011
 *****************************************************************************/
 
-inline
-lapack_int LAPACKE_ddisna_work( char job, lapack_int m, lapack_int n,
-                                const double* d, double* sep )
-{
-    lapack_int info = 0;
-    /* Call LAPACK function and adjust info */
-    F77_NAME(ddisna)( &job, &m, &n, (double*)d, sep, &info );
-    return info;
+inline lapack_int LAPACKE_ddisna_work(char job, lapack_int m, lapack_int n,
+                                      const double* d, double* sep) {
+  lapack_int info = 0;
+  /* Call LAPACK function and adjust info */
+  F77_NAME(ddisna)(&job, &m, &n, (double*)d, sep, &info);
+  return info;
 }

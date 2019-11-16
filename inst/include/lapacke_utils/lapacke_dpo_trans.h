@@ -37,10 +37,8 @@
  * layout or vice versa.
  */
 
-inline
-void LAPACKE_dpo_trans( int matrix_layout, char uplo, lapack_int n,
-                        const double *in, lapack_int ldin,
-                        double *out, lapack_int ldout )
-{
-    LAPACKE_dtr_trans( matrix_layout, uplo, 'n', n, in, ldin, out, ldout );
+inline void LAPACKE_dpo_trans(int matrix_layout, char uplo, lapack_int n,
+                              const double *in, lapack_int ldin, double *out,
+                              lapack_int ldout) {
+  LAPACKE_dtr_trans(matrix_layout, uplo, 'n', n, in, ldin, out, ldout);
 }

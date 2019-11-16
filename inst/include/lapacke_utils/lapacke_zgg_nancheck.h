@@ -34,11 +34,9 @@
 
 /* Check a matrix for NaN entries. */
 
-inline
-lapack_logical LAPACKE_zgg_nancheck( int matrix_layout, lapack_int m,
-                                      lapack_int n,
-                                      const lapack_complex_double *a,
-                                      lapack_int lda )
-{
-    return LAPACKE_zge_nancheck( matrix_layout, m, n, a, lda );
+inline lapack_logical LAPACKE_zgg_nancheck(int matrix_layout, lapack_int m,
+                                           lapack_int n,
+                                           const lapack_complex_double *a,
+                                           lapack_int lda) {
+  return LAPACKE_zge_nancheck(matrix_layout, m, n, a, lda);
 }

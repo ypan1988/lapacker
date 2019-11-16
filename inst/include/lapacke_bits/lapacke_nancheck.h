@@ -33,28 +33,22 @@
 
 static int nancheck_flag = -1;
 
-inline
-void LAPACKE_set_nancheck( int flag )
-{
-    nancheck_flag = ( flag ) ? 1 : 0;
-}
+inline void LAPACKE_set_nancheck(int flag) { nancheck_flag = (flag) ? 1 : 0; }
 
-inline
-int LAPACKE_get_nancheck( )
-{
-    char* env;
-    if ( nancheck_flag != -1 ) {
-        return nancheck_flag;
-    }
-
-    /* Check environment variable, once and only once */
-    env = getenv( "LAPACKE_NANCHECK" );
-    if ( !env ) {
-        /* By default, NaN checking is enabled */
-        nancheck_flag = 1;
-    } else {
-        nancheck_flag = atoi( env ) ? 1 : 0;
-    }
-
+inline int LAPACKE_get_nancheck() {
+  char* env;
+  if (nancheck_flag != -1) {
     return nancheck_flag;
+  }
+
+  /* Check environment variable, once and only once */
+  env = getenv("LAPACKE_NANCHECK");
+  if (!env) {
+    /* By default, NaN checking is enabled */
+    nancheck_flag = 1;
+  } else {
+    nancheck_flag = atoi(env) ? 1 : 0;
+  }
+
+  return nancheck_flag;
 }

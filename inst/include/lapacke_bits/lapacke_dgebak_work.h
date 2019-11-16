@@ -31,53 +31,52 @@
 * Generated November 2015
 *****************************************************************************/
 
-inline
-lapack_int LAPACKE_dgebak_work( int matrix_layout, char job, char side,
-                                lapack_int n, lapack_int ilo, lapack_int ihi,
-                                const double* scale, lapack_int m, double* v,
-                                lapack_int ldv )
-{
-    lapack_int info = 0;
-    if( matrix_layout == LAPACK_COL_MAJOR ) {
-        /* Call LAPACK function and adjust info */
-        F77_NAME(dgebak)( &job, &side, &n, &ilo, &ihi, (double*)scale, &m, v, &ldv, &info );
-        if( info < 0 ) {
-            info = info - 1;
-        }
-    } else if( matrix_layout == LAPACK_ROW_MAJOR ) {
-        lapack_int ldv_t = MAX(1,n);
-        double* v_t = NULL;
-        /* Check leading dimension(s) */
-        if( ldv < m ) {
-            info = -10;
-            LAPACKE_xerbla( "LAPACKE_dgebak_work", info );
-            return info;
-        }
-        /* Allocate memory for temporary array(s) */
-        v_t = (double*)LAPACKE_malloc( sizeof(double) * ldv_t * MAX(1,m) );
-        if( v_t == NULL ) {
-            info = LAPACK_TRANSPOSE_MEMORY_ERROR;
-            goto exit_level_0;
-        }
-        /* Transpose input matrices */
-        LAPACKE_dge_trans( matrix_layout, n, m, v, ldv, v_t, ldv_t );
-        /* Call LAPACK function and adjust info */
-        F77_NAME(dgebak)( &job, &side, &n, &ilo, &ihi, (double*)scale, &m, v_t, &ldv_t,
-                       &info );
-        if( info < 0 ) {
-            info = info - 1;
-        }
-        /* Transpose output matrices */
-        LAPACKE_dge_trans( LAPACK_COL_MAJOR, n, m, v_t, ldv_t, v, ldv );
-        /* Release memory and exit */
-        LAPACKE_free( v_t );
-exit_level_0:
-        if( info == LAPACK_TRANSPOSE_MEMORY_ERROR ) {
-            LAPACKE_xerbla( "LAPACKE_dgebak_work", info );
-        }
-    } else {
-        info = -1;
-        LAPACKE_xerbla( "LAPACKE_dgebak_work", info );
+inline lapack_int LAPACKE_dgebak_work(int matrix_layout, char job, char side,
+                                      lapack_int n, lapack_int ilo,
+                                      lapack_int ihi, const double* scale,
+                                      lapack_int m, double* v, lapack_int ldv) {
+  lapack_int info = 0;
+  if (matrix_layout == LAPACK_COL_MAJOR) {
+    /* Call LAPACK function and adjust info */
+    F77_NAME(dgebak)
+    (&job, &side, &n, &ilo, &ihi, (double*)scale, &m, v, &ldv, &info);
+    if (info < 0) {
+      info = info - 1;
     }
-    return info;
+  } else if (matrix_layout == LAPACK_ROW_MAJOR) {
+    lapack_int ldv_t = MAX(1, n);
+    double* v_t = NULL;
+    /* Check leading dimension(s) */
+    if (ldv < m) {
+      info = -10;
+      LAPACKE_xerbla("LAPACKE_dgebak_work", info);
+      return info;
+    }
+    /* Allocate memory for temporary array(s) */
+    v_t = (double*)LAPACKE_malloc(sizeof(double) * ldv_t * MAX(1, m));
+    if (v_t == NULL) {
+      info = LAPACK_TRANSPOSE_MEMORY_ERROR;
+      goto exit_level_0;
+    }
+    /* Transpose input matrices */
+    LAPACKE_dge_trans(matrix_layout, n, m, v, ldv, v_t, ldv_t);
+    /* Call LAPACK function and adjust info */
+    F77_NAME(dgebak)
+    (&job, &side, &n, &ilo, &ihi, (double*)scale, &m, v_t, &ldv_t, &info);
+    if (info < 0) {
+      info = info - 1;
+    }
+    /* Transpose output matrices */
+    LAPACKE_dge_trans(LAPACK_COL_MAJOR, n, m, v_t, ldv_t, v, ldv);
+    /* Release memory and exit */
+    LAPACKE_free(v_t);
+  exit_level_0:
+    if (info == LAPACK_TRANSPOSE_MEMORY_ERROR) {
+      LAPACKE_xerbla("LAPACKE_dgebak_work", info);
+    }
+  } else {
+    info = -1;
+    LAPACKE_xerbla("LAPACKE_dgebak_work", info);
+  }
+  return info;
 }

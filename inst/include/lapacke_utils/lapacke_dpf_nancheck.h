@@ -38,10 +38,7 @@
  * matrix_layout.
  */
 
-inline
-lapack_logical LAPACKE_dpf_nancheck( lapack_int n,
-                                      const double *a )
-{
-    lapack_int len = n*(n+1)/2;
-    return LAPACKE_d_nancheck( len, a, 1 );
+inline lapack_logical LAPACKE_dpf_nancheck(lapack_int n, const double *a) {
+  lapack_int len = n * (n + 1) / 2;
+  return LAPACKE_d_nancheck(len, a, 1);
 }

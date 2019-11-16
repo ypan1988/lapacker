@@ -37,24 +37,22 @@
  * layout or vice versa.
  */
 
-inline
-void LAPACKE_zhs_trans( int matrix_layout, lapack_int n,
-                        const lapack_complex_double *in, lapack_int ldin,
-                        lapack_complex_double *out, lapack_int ldout )
-{
-    if( in == NULL || out == NULL ) return;
+inline void LAPACKE_zhs_trans(int matrix_layout, lapack_int n,
+                              const lapack_complex_double *in, lapack_int ldin,
+                              lapack_complex_double *out, lapack_int ldout) {
+  if (in == NULL || out == NULL) return;
 
-    /* Convert subdiagonal first */
-    if( matrix_layout == LAPACK_COL_MAJOR ) {
-        LAPACKE_zge_trans( LAPACK_COL_MAJOR, 1, n-1, &in[1], ldin+1,
-                           &out[ldout], ldout+1 );
-    } else if ( matrix_layout == LAPACK_ROW_MAJOR ) {
-        LAPACKE_zge_trans( LAPACK_ROW_MAJOR, n-1, 1, &in[ldin], ldin+1,
-                           &out[1], ldout+1 );
-    } else {
-        return;
-    }
+  /* Convert subdiagonal first */
+  if (matrix_layout == LAPACK_COL_MAJOR) {
+    LAPACKE_zge_trans(LAPACK_COL_MAJOR, 1, n - 1, &in[1], ldin + 1, &out[ldout],
+                      ldout + 1);
+  } else if (matrix_layout == LAPACK_ROW_MAJOR) {
+    LAPACKE_zge_trans(LAPACK_ROW_MAJOR, n - 1, 1, &in[ldin], ldin + 1, &out[1],
+                      ldout + 1);
+  } else {
+    return;
+  }
 
-    /* Convert upper triangular. */
-    LAPACKE_ztr_trans( matrix_layout, 'u', 'n', n, in, ldin, out, ldout);
+  /* Convert upper triangular. */
+  LAPACKE_ztr_trans(matrix_layout, 'u', 'n', n, in, ldin, out, ldout);
 }

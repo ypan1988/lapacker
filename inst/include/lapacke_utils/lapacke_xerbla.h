@@ -34,14 +34,12 @@
 #include <stdio.h>
 // #include "lapacke_utils.h"
 
-inline
-void LAPACKE_xerbla( const char *name, lapack_int info )
-{
-    if( info == LAPACK_WORK_MEMORY_ERROR ) {
-        Rprintf( "Not enough memory to allocate work array in %s\n", name );
-    } else if( info == LAPACK_TRANSPOSE_MEMORY_ERROR ) {
-        Rprintf( "Not enough memory to transpose matrix in %s\n", name );
-    } else if( info < 0 ) {
-        Rprintf( "Wrong parameter %d in %s\n", -(int) info, name );
-    }
+inline void LAPACKE_xerbla(const char *name, lapack_int info) {
+  if (info == LAPACK_WORK_MEMORY_ERROR) {
+    Rprintf("Not enough memory to allocate work array in %s\n", name);
+  } else if (info == LAPACK_TRANSPOSE_MEMORY_ERROR) {
+    Rprintf("Not enough memory to transpose matrix in %s\n", name);
+  } else if (info < 0) {
+    Rprintf("Wrong parameter %d in %s\n", -(int)info, name);
+  }
 }

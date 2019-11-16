@@ -38,53 +38,51 @@
  * This functions does copy diagonal for both unit and non-unit cases.
  */
 
-inline
-void LAPACKE_ztf_trans( int matrix_layout, char transr, char uplo, char diag,
-                        lapack_int n, const lapack_complex_double *in,
-                        lapack_complex_double *out )
-{
-    lapack_int row, col;
-    lapack_logical rowmaj, ntr, lower, unit;
+inline void LAPACKE_ztf_trans(int matrix_layout, char transr, char uplo,
+                              char diag, lapack_int n,
+                              const lapack_complex_double *in,
+                              lapack_complex_double *out) {
+  lapack_int row, col;
+  lapack_logical rowmaj, ntr, lower, unit;
 
-    if( in == NULL || out == NULL ) return ;
+  if (in == NULL || out == NULL) return;
 
-    rowmaj = (matrix_layout == LAPACK_ROW_MAJOR);
-    ntr    = LAPACKE_lsame( transr, 'n' );
-    lower  = LAPACKE_lsame( uplo,   'l' );
-    unit   = LAPACKE_lsame( diag,   'u' );
+  rowmaj = (matrix_layout == LAPACK_ROW_MAJOR);
+  ntr = LAPACKE_lsame(transr, 'n');
+  lower = LAPACKE_lsame(uplo, 'l');
+  unit = LAPACKE_lsame(diag, 'u');
 
-    if( ( !rowmaj && ( matrix_layout != LAPACK_COL_MAJOR ) ) ||
-        ( !ntr    && !LAPACKE_lsame( transr, 't' ) &&
-                     !LAPACKE_lsame( transr, 'c' ) ) ||
-        ( !lower  && !LAPACKE_lsame( uplo,   'u' ) ) ||
-        ( !unit   && !LAPACKE_lsame( diag,   'n' ) ) ) {
-        /* Just exit if input parameters are wrong */
-        return;
-    }
+  if ((!rowmaj && (matrix_layout != LAPACK_COL_MAJOR)) ||
+      (!ntr && !LAPACKE_lsame(transr, 't') && !LAPACKE_lsame(transr, 'c')) ||
+      (!lower && !LAPACKE_lsame(uplo, 'u')) ||
+      (!unit && !LAPACKE_lsame(diag, 'n'))) {
+    /* Just exit if input parameters are wrong */
+    return;
+  }
 
-    /* Determine parameters of array representing RFP */
-    if( ntr ) {
-        if( n%2 == 0 ) {
-            row = n + 1;
-            col = n / 2;
-        } else {
-            row = n;
-            col = (n + 1) / 2;
-        }
+  /* Determine parameters of array representing RFP */
+  if (ntr) {
+    if (n % 2 == 0) {
+      row = n + 1;
+      col = n / 2;
     } else {
-        if( n%2 == 0 ) {
-            row = n / 2;
-            col = n + 1;
-        } else {
-            row = (n + 1) / 2;
-            col = n;
-        }
+      row = n;
+      col = (n + 1) / 2;
     }
-
-    /* Perform conversion: */
-    if( rowmaj ) {
-        LAPACKE_zge_trans( LAPACK_ROW_MAJOR, row, col, in, col, out, row );
+  } else {
+    if (n % 2 == 0) {
+      row = n / 2;
+      col = n + 1;
     } else {
-        LAPACKE_zge_trans( LAPACK_COL_MAJOR, row, col, in, row, out, col );
+      row = (n + 1) / 2;
+      col = n;
     }
+  }
+
+  /* Perform conversion: */
+  if (rowmaj) {
+    LAPACKE_zge_trans(LAPACK_ROW_MAJOR, row, col, in, col, out, row);
+  } else {
+    LAPACKE_zge_trans(LAPACK_COL_MAJOR, row, col, in, row, out, col);
+  }
 }

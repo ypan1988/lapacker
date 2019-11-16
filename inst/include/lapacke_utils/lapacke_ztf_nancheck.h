@@ -34,126 +34,114 @@
 
 /* Check a matrix for NaN entries. */
 
-inline
-lapack_logical LAPACKE_ztf_nancheck( int matrix_layout, char transr,
-                                      char uplo, char diag,
-                                      lapack_int n,
-                                      const lapack_complex_double *a )
-{
-    lapack_int len;
-    lapack_logical rowmaj, ntr, lower, unit;
-    lapack_int n1, n2, k;
+inline lapack_logical LAPACKE_ztf_nancheck(int matrix_layout, char transr,
+                                           char uplo, char diag, lapack_int n,
+                                           const lapack_complex_double *a) {
+  lapack_int len;
+  lapack_logical rowmaj, ntr, lower, unit;
+  lapack_int n1, n2, k;
 
-    if( a == NULL ) return (lapack_logical) 0;
+  if (a == NULL) return (lapack_logical)0;
 
-    rowmaj = (matrix_layout == LAPACK_ROW_MAJOR);
-    ntr    = LAPACKE_lsame( transr, 'n' );
-    lower  = LAPACKE_lsame( uplo,   'l' );
-    unit   = LAPACKE_lsame( diag,   'u' );
+  rowmaj = (matrix_layout == LAPACK_ROW_MAJOR);
+  ntr = LAPACKE_lsame(transr, 'n');
+  lower = LAPACKE_lsame(uplo, 'l');
+  unit = LAPACKE_lsame(diag, 'u');
 
-    if( ( !rowmaj && ( matrix_layout != LAPACK_COL_MAJOR ) ) ||
-        ( !ntr    && !LAPACKE_lsame( transr, 't' )
-                  && !LAPACKE_lsame( transr, 'c' ) ) ||
-        ( !lower  && !LAPACKE_lsame( uplo,   'u' ) ) ||
-        ( !unit   && !LAPACKE_lsame( diag,   'n' ) ) ) {
-        /* Just exit if any of input parameters are wrong */
-        return (lapack_logical) 0;
-    }
+  if ((!rowmaj && (matrix_layout != LAPACK_COL_MAJOR)) ||
+      (!ntr && !LAPACKE_lsame(transr, 't') && !LAPACKE_lsame(transr, 'c')) ||
+      (!lower && !LAPACKE_lsame(uplo, 'u')) ||
+      (!unit && !LAPACKE_lsame(diag, 'n'))) {
+    /* Just exit if any of input parameters are wrong */
+    return (lapack_logical)0;
+  }
 
-    if( unit ) {
-        /* Unit case, diagonal should be excluded from the check for NaN.
-         * Decoding RFP and checking both triangulars and rectangular
-         * for NaNs.
-         */
-        if( lower ) {
-            n2 = n / 2;
-            n1 = n - n2;
-        } else {
-            n1 = n / 2;
-            n2 = n - n1;
-        }
-        if( n % 2 == 1 ) {
-            /* N is odd */
-            if( ( rowmaj || ntr ) && !( rowmaj && ntr ) ) {
-                /* N is odd and ( TRANSR = 'N' .XOR. ROWMAJOR) */
-                if( lower ) {
-                    return LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'l', 'u',
-                                                 n1, &a[0], n )
-                        || LAPACKE_zge_nancheck( LAPACK_ROW_MAJOR, n2, n1,
-                                                 &a[n1], n )
-                        || LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'u', 'u',
-                                                 n2, &a[n], n );
-                } else {
-                    return LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'l', 'u',
-                                                 n1, &a[n2], n )
-                        || LAPACKE_zge_nancheck( LAPACK_ROW_MAJOR, n1, n2,
-                                                 &a[0], n )
-                        || LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'u', 'u',
-                                                 n2, &a[n1], n );
-                }
-            } else {
-                /* N is odd and
-                 * ( ( TRANSR = 'C' || TRANSR = 'T' ) .XOR. COLMAJOR )
-                 */
-                if( lower ) {
-                    return LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'u', 'u',
-                                                 n1, &a[0], n1 )
-                        || LAPACKE_zge_nancheck( LAPACK_ROW_MAJOR, n1, n2,
-                                                 &a[1], n1 )
-                        || LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'l', 'u',
-                                                 n2, &a[1], n1 );
-                } else {
-                    return LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'u', 'u',
-                                                 n1, &a[(size_t)n2*n2], n2 )
-                        || LAPACKE_zge_nancheck( LAPACK_ROW_MAJOR, n2, n1,
-                                                 &a[0], n2 )
-                        || LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'l', 'u',
-                                                 n2, &a[(size_t)n1*n2], n2 );
-                }
-            }
-        } else {
-            /* N is even */
-            k = n / 2;
-            if( ( rowmaj || ntr ) && !( rowmaj && ntr ) ) {
-                /* N is even and ( TRANSR = 'N' .XOR. ROWMAJOR) */
-                if( lower ) {
-                    return LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'l', 'u',
-                                                 k, &a[1], n+1 )
-                        || LAPACKE_zge_nancheck( LAPACK_ROW_MAJOR, k, k,
-                                                 &a[k+1], n+1 )
-                        || LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'u', 'u',
-                                                 k, &a[0], n+1 );
-                } else {
-                    return LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'l', 'u',
-                                                 k, &a[k+1], n+1 )
-                        || LAPACKE_zge_nancheck( LAPACK_ROW_MAJOR, k, k,
-                                                 &a[0], n+1 )
-                        || LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'u', 'u',
-                                                 k, &a[k], n+1 );
-                }
-            } else {
-                /* N is even and
-                   ( ( TRANSR = 'C' || TRANSR = 'T' ) .XOR. COLMAJOR ) */
-                if( lower ) {
-                    return LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'u', 'u',
-                                                 k, &a[k], k )
-                        || LAPACKE_zge_nancheck( LAPACK_ROW_MAJOR, k, k,
-                                                 &a[(size_t)k*(k+1)], k )
-                        || LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'l', 'u',
-                                                 k, &a[0], k );
-                } else {
-                    return LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'u', 'u',
-                                                 k, &a[(size_t)k*(k+1)], k )
-                        || LAPACKE_zge_nancheck( LAPACK_ROW_MAJOR, k, k,
-                                                 &a[0], k )
-                        || LAPACKE_ztr_nancheck( LAPACK_ROW_MAJOR, 'l', 'u',
-                                                 k, &a[(size_t)k*k], k );
-                }
-            }
-        }
+  if (unit) {
+    /* Unit case, diagonal should be excluded from the check for NaN.
+     * Decoding RFP and checking both triangulars and rectangular
+     * for NaNs.
+     */
+    if (lower) {
+      n2 = n / 2;
+      n1 = n - n2;
     } else {
-        /* Non-unit case - just check whole array for NaNs. */
-        len = n*(n+1)/2;
-        return LAPACKE_zge_nancheck( LAPACK_COL_MAJOR, len, 1, a, len );
+      n1 = n / 2;
+      n2 = n - n1;
     }
+    if (n % 2 == 1) {
+      /* N is odd */
+      if ((rowmaj || ntr) && !(rowmaj && ntr)) {
+        /* N is odd and ( TRANSR = 'N' .XOR. ROWMAJOR) */
+        if (lower) {
+          return LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'l', 'u', n1, &a[0],
+                                      n) ||
+                 LAPACKE_zge_nancheck(LAPACK_ROW_MAJOR, n2, n1, &a[n1], n) ||
+                 LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'u', 'u', n2, &a[n], n);
+        } else {
+          return LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'l', 'u', n1, &a[n2],
+                                      n) ||
+                 LAPACKE_zge_nancheck(LAPACK_ROW_MAJOR, n1, n2, &a[0], n) ||
+                 LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'u', 'u', n2, &a[n1],
+                                      n);
+        }
+      } else {
+        /* N is odd and
+         * ( ( TRANSR = 'C' || TRANSR = 'T' ) .XOR. COLMAJOR )
+         */
+        if (lower) {
+          return LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'u', 'u', n1, &a[0],
+                                      n1) ||
+                 LAPACKE_zge_nancheck(LAPACK_ROW_MAJOR, n1, n2, &a[1], n1) ||
+                 LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'l', 'u', n2, &a[1],
+                                      n1);
+        } else {
+          return LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'u', 'u', n1,
+                                      &a[(size_t)n2 * n2], n2) ||
+                 LAPACKE_zge_nancheck(LAPACK_ROW_MAJOR, n2, n1, &a[0], n2) ||
+                 LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'l', 'u', n2,
+                                      &a[(size_t)n1 * n2], n2);
+        }
+      }
+    } else {
+      /* N is even */
+      k = n / 2;
+      if ((rowmaj || ntr) && !(rowmaj && ntr)) {
+        /* N is even and ( TRANSR = 'N' .XOR. ROWMAJOR) */
+        if (lower) {
+          return LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'l', 'u', k, &a[1],
+                                      n + 1) ||
+                 LAPACKE_zge_nancheck(LAPACK_ROW_MAJOR, k, k, &a[k + 1],
+                                      n + 1) ||
+                 LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'u', 'u', k, &a[0],
+                                      n + 1);
+        } else {
+          return LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'l', 'u', k, &a[k + 1],
+                                      n + 1) ||
+                 LAPACKE_zge_nancheck(LAPACK_ROW_MAJOR, k, k, &a[0], n + 1) ||
+                 LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'u', 'u', k, &a[k],
+                                      n + 1);
+        }
+      } else {
+        /* N is even and
+           ( ( TRANSR = 'C' || TRANSR = 'T' ) .XOR. COLMAJOR ) */
+        if (lower) {
+          return LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'u', 'u', k, &a[k],
+                                      k) ||
+                 LAPACKE_zge_nancheck(LAPACK_ROW_MAJOR, k, k,
+                                      &a[(size_t)k * (k + 1)], k) ||
+                 LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'l', 'u', k, &a[0], k);
+        } else {
+          return LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'u', 'u', k,
+                                      &a[(size_t)k * (k + 1)], k) ||
+                 LAPACKE_zge_nancheck(LAPACK_ROW_MAJOR, k, k, &a[0], k) ||
+                 LAPACKE_ztr_nancheck(LAPACK_ROW_MAJOR, 'l', 'u', k,
+                                      &a[(size_t)k * k], k);
+        }
+      }
+    }
+  } else {
+    /* Non-unit case - just check whole array for NaNs. */
+    len = n * (n + 1) / 2;
+    return LAPACKE_zge_nancheck(LAPACK_COL_MAJOR, len, 1, a, len);
+  }
 }

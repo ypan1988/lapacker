@@ -31,17 +31,15 @@
 * Generated November, 2011
 *****************************************************************************/
 
-inline
-lapack_int LAPACKE_ddisna( char job, lapack_int m, lapack_int n,
-                           const double* d, double* sep )
-{
+inline lapack_int LAPACKE_ddisna(char job, lapack_int m, lapack_int n,
+                                 const double* d, double* sep) {
 #ifndef LAPACK_DISABLE_NAN_CHECK
-    if( LAPACKE_get_nancheck() ) {
-        /* Optionally check input matrices for NaNs */
-        if( LAPACKE_d_nancheck( MIN(m,n), d, 1 ) ) {
-            return -4;
-        }
+  if (LAPACKE_get_nancheck()) {
+    /* Optionally check input matrices for NaNs */
+    if (LAPACKE_d_nancheck(MIN(m, n), d, 1)) {
+      return -4;
     }
+  }
 #endif
-    return LAPACKE_ddisna_work( job, m, n, d, sep );
+  return LAPACKE_ddisna_work(job, m, n, d, sep);
 }

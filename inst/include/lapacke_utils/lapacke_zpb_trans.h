@@ -37,15 +37,13 @@
  * column-major(Fortran) layout or vice versa.
  */
 
-inline
-void LAPACKE_zpb_trans( int matrix_layout, char uplo, lapack_int n,
-                        lapack_int kd,
-                        const lapack_complex_double *in, lapack_int ldin,
-                        lapack_complex_double *out, lapack_int ldout )
-{
-    if( LAPACKE_lsame( uplo, 'u' ) ) {
-        LAPACKE_zgb_trans( matrix_layout, n, n, 0, kd, in, ldin, out, ldout );
-    } else if( LAPACKE_lsame( uplo, 'l' ) ) {
-        LAPACKE_zgb_trans( matrix_layout, n, n, kd, 0, in, ldin, out, ldout );
-    }
+inline void LAPACKE_zpb_trans(int matrix_layout, char uplo, lapack_int n,
+                              lapack_int kd, const lapack_complex_double *in,
+                              lapack_int ldin, lapack_complex_double *out,
+                              lapack_int ldout) {
+  if (LAPACKE_lsame(uplo, 'u')) {
+    LAPACKE_zgb_trans(matrix_layout, n, n, 0, kd, in, ldin, out, ldout);
+  } else if (LAPACKE_lsame(uplo, 'l')) {
+    LAPACKE_zgb_trans(matrix_layout, n, n, kd, 0, in, ldin, out, ldout);
+  }
 }
