@@ -1,5 +1,5 @@
 /*****************************************************************************
-  Copyright (c) 2010, Intel Corp.
+  Copyright (c) 2014, Intel Corp.
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -25,23 +25,43 @@
   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
   THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************
-* Contents: Native C interface to LAPACK lsame
+*****************************************************************************
+* Contents: Native high-level C interface to LAPACK function dgelq2
 * Author: Intel Corporation
-* Created in January, 2010
+* Generated November 2015
 *****************************************************************************/
 
-#include <stdio.h>
-// #include "lapacke_utils.h"
-
 inline
-void LAPACKE_xerbla( const char *name, lapack_int info )
+lapack_int LAPACKE_dgelq2( int matrix_layout, lapack_int m, lapack_int n,
+                           double* a, lapack_int lda, double* tau )
 {
-    if( info == LAPACK_WORK_MEMORY_ERROR ) {
-        Rprintf( "Not enough memory to allocate work array in %s\n", name );
-    } else if( info == LAPACK_TRANSPOSE_MEMORY_ERROR ) {
-        Rprintf( "Not enough memory to transpose matrix in %s\n", name );
-    } else if( info < 0 ) {
-        Rprintf( "Wrong parameter %d in %s\n", -(int) info, name );
+    lapack_int info = 0;
+    double* work = NULL;
+    if( matrix_layout != LAPACK_COL_MAJOR && matrix_layout != LAPACK_ROW_MAJOR ) {
+        LAPACKE_xerbla( "LAPACKE_dgelq2", -1 );
+        return -1;
     }
+#ifndef LAPACK_DISABLE_NAN_CHECK
+    if( LAPACKE_get_nancheck() ) {
+        /* Optionally check input matrices for NaNs */
+        if( LAPACKE_dge_nancheck( matrix_layout, m, n, a, lda ) ) {
+            return -4;
+        }
+    }
+#endif
+    /* Allocate memory for working array(s) */
+    work = (double*)LAPACKE_malloc( sizeof(double) * MAX(1,m) );
+    if( work == NULL ) {
+        info = LAPACK_WORK_MEMORY_ERROR;
+        goto exit_level_0;
+    }
+    /* Call middle-level interface */
+    info = LAPACKE_dgelq2_work( matrix_layout, m, n, a, lda, tau, work );
+    /* Release memory and exit */
+    LAPACKE_free( work );
+exit_level_0:
+    if( info == LAPACK_WORK_MEMORY_ERROR ) {
+        LAPACKE_xerbla( "LAPACKE_dgelq2", info );
+    }
+    return info;
 }

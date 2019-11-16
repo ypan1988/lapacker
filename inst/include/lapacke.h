@@ -12611,10 +12611,19 @@ lapack_int LAPACKE_zhetrs_aa_2stage_work( int matrix_layout, char uplo, lapack_i
 void LAPACKE_set_nancheck( int flag );
 int LAPACKE_get_nancheck( );
 
+/* Selected Double Precision Lapack Routines
+ ========
+ */
+
+//* Double precision BiDiagonal and DIagonal matrices  -> DBD & DDI
+
 #include "lapacke_bits/lapacke_dbdsqr.h"
 #include "lapacke_bits/lapacke_dbdsqr_work.h"
 #include "lapacke_bits/lapacke_ddisna.h"
 #include "lapacke_bits/lapacke_ddisna_work.h"
+
+//* Double precision General Banded matrices -> DGB
+
 #include "lapacke_bits/lapacke_dgbbrd.h"
 #include "lapacke_bits/lapacke_dgbbrd_work.h"
 #include "lapacke_bits/lapacke_dgbcon.h"
@@ -12632,8 +12641,64 @@ int LAPACKE_get_nancheck( );
 #include "lapacke_bits/lapacke_dgbtrs.h"
 #include "lapacke_bits/lapacke_dgbtrs_work.h"
 
+//* Double precision GEneral matrices -> DGE
+
+#include "lapacke_bits/lapacke_dgebak.h"
+#include "lapacke_bits/lapacke_dgebak_work.h"
+#include "lapacke_bits/lapacke_dgetrs.h"
+#include "lapacke_bits/lapacke_dgetrs_work.h"
+#include "lapacke_bits/lapacke_dgebal.h"
+#include "lapacke_bits/lapacke_dgebal_work.h"
+#include "lapacke_bits/lapacke_dgebrd.h"
+#include "lapacke_bits/lapacke_dgebrd_work.h"
+#include "lapacke_bits/lapacke_dgecon.h"
+#include "lapacke_bits/lapacke_dgecon_work.h"
+#include "lapacke_bits/lapacke_dgeequ.h"
+#include "lapacke_bits/lapacke_dgeequ_work.h"
+#include "lapacke_bits/lapacke_dgees.h"
+#include "lapacke_bits/lapacke_dgees_work.h"
+#include "lapacke_bits/lapacke_dgeesx.h"
+#include "lapacke_bits/lapacke_dgeesx_work.h"
+#include "lapacke_bits/lapacke_dgeev.h"
+#include "lapacke_bits/lapacke_dgeev_work.h"
+#include "lapacke_bits/lapacke_dgeevx.h"
+#include "lapacke_bits/lapacke_dgeevx_work.h"
+#include "lapacke_bits/lapacke_dgehrd.h"
+#include "lapacke_bits/lapacke_dgehrd_work.h"
+#include "lapacke_bits/lapacke_dgelq2.h"
+#include "lapacke_bits/lapacke_dgelq2_work.h"
+#include "lapacke_bits/lapacke_dgelqf.h"
+#include "lapacke_bits/lapacke_dgelqf_work.h"
 #include "lapacke_bits/lapacke_dgels.h"
 #include "lapacke_bits/lapacke_dgels_work.h"
+#include "lapacke_bits/lapacke_dgelss.h"
+#include "lapacke_bits/lapacke_dgelss_work.h"
+#include "lapacke_bits/lapacke_dgelsy.h"
+#include "lapacke_bits/lapacke_dgelsy_work.h"
+#include "lapacke_bits/lapacke_dgeqlf.h"
+#include "lapacke_bits/lapacke_dgeqlf_work.h"
+#include "lapacke_bits/lapacke_dgeqp3.h"
+#include "lapacke_bits/lapacke_dgeqp3_work.h"
+#include "lapacke_bits/lapacke_dgeqr2.h"
+#include "lapacke_bits/lapacke_dgeqr2_work.h"
+#include "lapacke_bits/lapacke_dgeqrf.h"
+#include "lapacke_bits/lapacke_dgeqrf_work.h"
+#include "lapacke_bits/lapacke_dgerfs.h"
+#include "lapacke_bits/lapacke_dgerfs_work.h"
+#include "lapacke_bits/lapacke_dgerqf.h"
+#include "lapacke_bits/lapacke_dgerqf_work.h"
+#include "lapacke_bits/lapacke_dgesv.h"
+#include "lapacke_bits/lapacke_dgesv_work.h"
+#include "lapacke_bits/lapacke_dgesvd.h"
+#include "lapacke_bits/lapacke_dgesvd_work.h"
+#include "lapacke_bits/lapacke_dgesvx.h"
+#include "lapacke_bits/lapacke_dgesvx_work.h"
+#include "lapacke_bits/lapacke_dgetf2.h"
+#include "lapacke_bits/lapacke_dgetf2_work.h"
+#include "lapacke_bits/lapacke_dgetrf.h"
+#include "lapacke_bits/lapacke_dgetrf_work.h"
+#include "lapacke_bits/lapacke_dgetri.h"
+#include "lapacke_bits/lapacke_dgetri_work.h"
 
 #include "lapacke_bits/lapacke_nancheck.h"
 

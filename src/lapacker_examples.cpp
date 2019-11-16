@@ -1,6 +1,11 @@
 #include <Rcpp.h>
 #include "lapacke.h"
 
+//'@title Example: using lapacke_dgels
+//'@description Solve linear systems using lapacke_dgels
+//'@examples
+//'## Expected output:
+//'example_lapacke_dgels()
 //'@export
 // [[Rcpp::export]]
 void example_lapacke_dgels()
@@ -20,10 +25,11 @@ void example_lapacke_dgels()
 
   for(i=0;i<n;i++)
   {
+    Rcpp::Rcout << "[ ";
     for(j=0;j<nrhs;j++)
     {
-      printf("%lf ",b[i][j]);
+      Rcpp::Rcout << b[i][j] << " ";
     }
-    printf("\n");
+    Rcpp::Rcout << " ]" << std::endl;
   }
 }

@@ -1,5 +1,5 @@
 /*****************************************************************************
-  Copyright (c) 2010, Intel Corp.
+  Copyright (c) 2014, Intel Corp.
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -25,23 +25,56 @@
   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
   THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************
-* Contents: Native C interface to LAPACK lsame
+*****************************************************************************
+* Contents: Native high-level C interface to LAPACK function dgecon
 * Author: Intel Corporation
-* Created in January, 2010
+* Generated November 2015
 *****************************************************************************/
 
-#include <stdio.h>
-// #include "lapacke_utils.h"
-
 inline
-void LAPACKE_xerbla( const char *name, lapack_int info )
+lapack_int LAPACKE_dgecon( int matrix_layout, char norm, lapack_int n,
+                           const double* a, lapack_int lda, double anorm,
+                           double* rcond )
 {
-    if( info == LAPACK_WORK_MEMORY_ERROR ) {
-        Rprintf( "Not enough memory to allocate work array in %s\n", name );
-    } else if( info == LAPACK_TRANSPOSE_MEMORY_ERROR ) {
-        Rprintf( "Not enough memory to transpose matrix in %s\n", name );
-    } else if( info < 0 ) {
-        Rprintf( "Wrong parameter %d in %s\n", -(int) info, name );
+    lapack_int info = 0;
+    lapack_int* iwork = NULL;
+    double* work = NULL;
+    if( matrix_layout != LAPACK_COL_MAJOR && matrix_layout != LAPACK_ROW_MAJOR ) {
+        LAPACKE_xerbla( "LAPACKE_dgecon", -1 );
+        return -1;
     }
+#ifndef LAPACK_DISABLE_NAN_CHECK
+    if( LAPACKE_get_nancheck() ) {
+        /* Optionally check input matrices for NaNs */
+        if( LAPACKE_dge_nancheck( matrix_layout, n, n, a, lda ) ) {
+            return -4;
+        }
+        if( LAPACKE_d_nancheck( 1, &anorm, 1 ) ) {
+            return -6;
+        }
+    }
+#endif
+    /* Allocate memory for working array(s) */
+    iwork = (lapack_int*)LAPACKE_malloc( sizeof(lapack_int) * MAX(1,n) );
+    if( iwork == NULL ) {
+        info = LAPACK_WORK_MEMORY_ERROR;
+        goto exit_level_0;
+    }
+    work = (double*)LAPACKE_malloc( sizeof(double) * MAX(1,4*n) );
+    if( work == NULL ) {
+        info = LAPACK_WORK_MEMORY_ERROR;
+        goto exit_level_1;
+    }
+    /* Call middle-level interface */
+    info = LAPACKE_dgecon_work( matrix_layout, norm, n, a, lda, anorm, rcond,
+                                work, iwork );
+    /* Release memory and exit */
+    LAPACKE_free( work );
+exit_level_1:
+    LAPACKE_free( iwork );
+exit_level_0:
+    if( info == LAPACK_WORK_MEMORY_ERROR ) {
+        LAPACKE_xerbla( "LAPACKE_dgecon", info );
+    }
+    return info;
 }
