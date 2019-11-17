@@ -134,6 +134,11 @@ typedef lapack_logical (*LAPACK_D_SELECT2)(const double*, const double*);
 typedef lapack_logical (*LAPACK_D_SELECT3)(const double*, const double*,
                                            const double*);
 
+typedef lapack_logical (*LAPACK_S_SELECT2_NON_CONST)(float*, float*);
+typedef lapack_logical (*LAPACK_S_SELECT3_NON_CONST)(float*, float*, float*);
+typedef lapack_logical (*LAPACK_D_SELECT2_NON_CONST)(double*, double*);
+typedef lapack_logical (*LAPACK_D_SELECT3_NON_CONST)(double*, double*, double*);
+
 typedef lapack_logical (*LAPACK_C_SELECT1)(const lapack_complex_float*);
 typedef lapack_logical (*LAPACK_C_SELECT2)(const lapack_complex_float*,
                                            const lapack_complex_float*);
@@ -246,6 +251,26 @@ int LAPACKE_get_nancheck();
 #include "lapacke_bits/lapacke_dgetrf.h"
 #include "lapacke_bits/lapacke_dgetri.h"
 #include "lapacke_bits/lapacke_dgetrs.h"
+
+//* Double precision General matrices Generalized problems -> DGG
+
+#include "lapacke_bits/lapacke_dggbak_work.h"
+#include "lapacke_bits/lapacke_dggbal_work.h"
+#include "lapacke_bits/lapacke_dgges_work.h"
+#include "lapacke_bits/lapacke_dggglm_work.h"
+#include "lapacke_bits/lapacke_dgghrd_work.h"
+#include "lapacke_bits/lapacke_dgglse_work.h"
+#include "lapacke_bits/lapacke_dggqrf_work.h"
+#include "lapacke_bits/lapacke_dggrqf_work.h"
+
+#include "lapacke_bits/lapacke_dggbak.h"
+#include "lapacke_bits/lapacke_dggbal.h"
+#include "lapacke_bits/lapacke_dgges.h"
+#include "lapacke_bits/lapacke_dggglm.h"
+#include "lapacke_bits/lapacke_dgghrd.h"
+#include "lapacke_bits/lapacke_dgglse.h"
+#include "lapacke_bits/lapacke_dggqrf.h"
+#include "lapacke_bits/lapacke_dggrqf.h"
 
 #include "lapacke_bits/lapacke_nancheck.h"
 
