@@ -1,5 +1,5 @@
 /*****************************************************************************
-  Copyright (c) 2014, Intel Corp.
+  Copyright (c) 2011, Intel Corp.
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -26,61 +26,59 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
   THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************
-* Contents: Native high-level C interface to LAPACK function dggbal
+* Contents: Native high-level C interface to LAPACK function dgtcon
 * Author: Intel Corporation
-* Generated November 2015
+* Generated November, 2011
 *****************************************************************************/
 
-inline lapack_int LAPACKE_dggbal(int matrix_layout, char job, lapack_int n,
-                                 double* a, lapack_int lda, double* b,
-                                 lapack_int ldb, lapack_int* ilo,
-                                 lapack_int* ihi, double* lscale,
-                                 double* rscale) {
+inline lapack_int LAPACKE_dgtcon(char norm, lapack_int n, const double* dl,
+                                 const double* d, const double* du,
+                                 const double* du2, const lapack_int* ipiv,
+                                 double anorm, double* rcond) {
   lapack_int info = 0;
-  /* Additional scalars declarations for work arrays */
-  lapack_int lwork;
+  lapack_int* iwork = NULL;
   double* work = NULL;
-  if (matrix_layout != LAPACK_COL_MAJOR && matrix_layout != LAPACK_ROW_MAJOR) {
-    LAPACKE_xerbla("LAPACKE_dggbal", -1);
-    return -1;
-  }
 #ifndef LAPACK_DISABLE_NAN_CHECK
   if (LAPACKE_get_nancheck()) {
     /* Optionally check input matrices for NaNs */
-    if (LAPACKE_lsame(job, 'p') || LAPACKE_lsame(job, 's') ||
-        LAPACKE_lsame(job, 'b')) {
-      if (LAPACKE_dge_nancheck(matrix_layout, n, n, a, lda)) {
-        return -4;
-      }
+    if (LAPACKE_d_nancheck(1, &anorm, 1)) {
+      return -8;
     }
-    if (LAPACKE_lsame(job, 'p') || LAPACKE_lsame(job, 's') ||
-        LAPACKE_lsame(job, 'b')) {
-      if (LAPACKE_dge_nancheck(matrix_layout, n, n, b, ldb)) {
-        return -6;
-      }
+    if (LAPACKE_d_nancheck(n, d, 1)) {
+      return -4;
+    }
+    if (LAPACKE_d_nancheck(n - 1, dl, 1)) {
+      return -3;
+    }
+    if (LAPACKE_d_nancheck(n - 1, du, 1)) {
+      return -5;
+    }
+    if (LAPACKE_d_nancheck(n - 2, du2, 1)) {
+      return -6;
     }
   }
 #endif
-  /* Additional scalars initializations for work arrays */
-  if (LAPACKE_lsame(job, 's') || LAPACKE_lsame(job, 'b')) {
-    lwork = MAX(1, 6 * n);
-  } else {
-    lwork = 1;
-  }
   /* Allocate memory for working array(s) */
-  work = (double*)LAPACKE_malloc(sizeof(double) * lwork);
-  if (work == NULL) {
+  iwork = (lapack_int*)LAPACKE_malloc(sizeof(lapack_int) * MAX(1, n));
+  if (iwork == NULL) {
     info = LAPACK_WORK_MEMORY_ERROR;
     goto exit_level_0;
   }
+  work = (double*)LAPACKE_malloc(sizeof(double) * MAX(1, 2 * n));
+  if (work == NULL) {
+    info = LAPACK_WORK_MEMORY_ERROR;
+    goto exit_level_1;
+  }
   /* Call middle-level interface */
-  info = LAPACKE_dggbal_work(matrix_layout, job, n, a, lda, b, ldb, ilo, ihi,
-                             lscale, rscale, work);
+  info = LAPACKE_dgtcon_work(norm, n, dl, d, du, du2, ipiv, anorm, rcond, work,
+                             iwork);
   /* Release memory and exit */
   LAPACKE_free(work);
+exit_level_1:
+  LAPACKE_free(iwork);
 exit_level_0:
   if (info == LAPACK_WORK_MEMORY_ERROR) {
-    LAPACKE_xerbla("LAPACKE_dggbal", info);
+    LAPACKE_xerbla("LAPACKE_dgtcon", info);
   }
   return info;
 }

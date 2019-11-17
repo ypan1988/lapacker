@@ -26,60 +26,61 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
   THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************
-* Contents: Native middle-level C interface to LAPACK function dggbak
+* Contents: Native middle-level C interface to LAPACK function dgttrs
 * Author: Intel Corporation
 * Generated November 2015
 *****************************************************************************/
 
-inline lapack_int LAPACKE_dggbak_work(int matrix_layout, char job, char side,
-                                      lapack_int n, lapack_int ilo,
-                                      lapack_int ihi, const double* lscale,
-                                      const double* rscale, lapack_int m,
-                                      double* v, lapack_int ldv) {
+inline lapack_int LAPACKE_dgttrs_work(int matrix_layout, char trans,
+                                      lapack_int n, lapack_int nrhs,
+                                      const double *dl, const double *d,
+                                      const double *du, const double *du2,
+                                      const lapack_int *ipiv, double *b,
+                                      lapack_int ldb) {
   lapack_int info = 0;
   if (matrix_layout == LAPACK_COL_MAJOR) {
     /* Call LAPACK function and adjust info */
-    F77_NAME(dggbak)
-    (&job, &side, &n, &ilo, &ihi, (double*)lscale, (double*)rscale, &m, v, &ldv,
-     &info);
+    F77_NAME(dgttrs)
+    (&trans, &n, &nrhs, (double *)dl, (double *)d, (double *)du, (double *)du2,
+     (lapack_int *)ipiv, b, &ldb, &info);
     if (info < 0) {
       info = info - 1;
     }
   } else if (matrix_layout == LAPACK_ROW_MAJOR) {
-    lapack_int ldv_t = MAX(1, n);
-    double* v_t = NULL;
+    lapack_int ldb_t = MAX(1, n);
+    double *b_t = NULL;
     /* Check leading dimension(s) */
-    if (ldv < m) {
+    if (ldb < nrhs) {
       info = -11;
-      LAPACKE_xerbla("LAPACKE_dggbak_work", info);
+      LAPACKE_xerbla("LAPACKE_dgttrs_work", info);
       return info;
     }
     /* Allocate memory for temporary array(s) */
-    v_t = (double*)LAPACKE_malloc(sizeof(double) * ldv_t * MAX(1, m));
-    if (v_t == NULL) {
+    b_t = (double *)LAPACKE_malloc(sizeof(double) * ldb_t * MAX(1, nrhs));
+    if (b_t == NULL) {
       info = LAPACK_TRANSPOSE_MEMORY_ERROR;
       goto exit_level_0;
     }
     /* Transpose input matrices */
-    LAPACKE_dge_trans(matrix_layout, n, m, v, ldv, v_t, ldv_t);
+    LAPACKE_dge_trans(matrix_layout, n, nrhs, b, ldb, b_t, ldb_t);
     /* Call LAPACK function and adjust info */
-    F77_NAME(dggbak)
-    (&job, &side, &n, &ilo, &ihi, (double*)lscale, (double*)rscale, &m, v_t,
-     &ldv_t, &info);
+    F77_NAME(dgttrs)
+    (&trans, &n, &nrhs, (double *)dl, (double *)d, (double *)du, (double *)du2,
+     (lapack_int *)ipiv, b_t, &ldb_t, &info);
     if (info < 0) {
       info = info - 1;
     }
     /* Transpose output matrices */
-    LAPACKE_dge_trans(LAPACK_COL_MAJOR, n, m, v_t, ldv_t, v, ldv);
+    LAPACKE_dge_trans(LAPACK_COL_MAJOR, n, nrhs, b_t, ldb_t, b, ldb);
     /* Release memory and exit */
-    LAPACKE_free(v_t);
+    LAPACKE_free(b_t);
   exit_level_0:
     if (info == LAPACK_TRANSPOSE_MEMORY_ERROR) {
-      LAPACKE_xerbla("LAPACKE_dggbak_work", info);
+      LAPACKE_xerbla("LAPACKE_dgttrs_work", info);
     }
   } else {
     info = -1;
-    LAPACKE_xerbla("LAPACKE_dggbak_work", info);
+    LAPACKE_xerbla("LAPACKE_dgttrs_work", info);
   }
   return info;
 }

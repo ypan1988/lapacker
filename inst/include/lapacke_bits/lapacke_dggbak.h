@@ -31,12 +31,10 @@
 * Generated November 2015
 *****************************************************************************/
 
-#include "lapacke_utils.h"
-
-lapack_int LAPACKE_dggbak(int matrix_layout, char job, char side, lapack_int n,
-                          lapack_int ilo, lapack_int ihi, const double* lscale,
-                          const double* rscale, lapack_int m, double* v,
-                          lapack_int ldv) {
+inline lapack_int LAPACKE_dggbak(int matrix_layout, char job, char side,
+                                 lapack_int n, lapack_int ilo, lapack_int ihi,
+                                 const double* lscale, const double* rscale,
+                                 lapack_int m, double* v, lapack_int ldv) {
   if (matrix_layout != LAPACK_COL_MAJOR && matrix_layout != LAPACK_ROW_MAJOR) {
     LAPACKE_xerbla("LAPACKE_dggbak", -1);
     return -1;

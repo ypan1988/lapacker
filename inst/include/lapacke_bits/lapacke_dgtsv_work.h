@@ -26,61 +26,54 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
   THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************
-* Contents: Native high-level C interface to LAPACK function dggbal
+* Contents: Native middle-level C interface to LAPACK function dgtsv
 * Author: Intel Corporation
 * Generated November 2015
 *****************************************************************************/
 
-inline lapack_int LAPACKE_dggbal(int matrix_layout, char job, lapack_int n,
-                                 double* a, lapack_int lda, double* b,
-                                 lapack_int ldb, lapack_int* ilo,
-                                 lapack_int* ihi, double* lscale,
-                                 double* rscale) {
+inline lapack_int LAPACKE_dgtsv_work(int matrix_layout, lapack_int n,
+                                     lapack_int nrhs, double* dl, double* d,
+                                     double* du, double* b, lapack_int ldb) {
   lapack_int info = 0;
-  /* Additional scalars declarations for work arrays */
-  lapack_int lwork;
-  double* work = NULL;
-  if (matrix_layout != LAPACK_COL_MAJOR && matrix_layout != LAPACK_ROW_MAJOR) {
-    LAPACKE_xerbla("LAPACKE_dggbal", -1);
-    return -1;
-  }
-#ifndef LAPACK_DISABLE_NAN_CHECK
-  if (LAPACKE_get_nancheck()) {
-    /* Optionally check input matrices for NaNs */
-    if (LAPACKE_lsame(job, 'p') || LAPACKE_lsame(job, 's') ||
-        LAPACKE_lsame(job, 'b')) {
-      if (LAPACKE_dge_nancheck(matrix_layout, n, n, a, lda)) {
-        return -4;
-      }
+  if (matrix_layout == LAPACK_COL_MAJOR) {
+    /* Call LAPACK function and adjust info */
+    F77_NAME(dgtsv)(&n, &nrhs, dl, d, du, b, &ldb, &info);
+    if (info < 0) {
+      info = info - 1;
     }
-    if (LAPACKE_lsame(job, 'p') || LAPACKE_lsame(job, 's') ||
-        LAPACKE_lsame(job, 'b')) {
-      if (LAPACKE_dge_nancheck(matrix_layout, n, n, b, ldb)) {
-        return -6;
-      }
+  } else if (matrix_layout == LAPACK_ROW_MAJOR) {
+    lapack_int ldb_t = MAX(1, n);
+    double* b_t = NULL;
+    /* Check leading dimension(s) */
+    if (ldb < nrhs) {
+      info = -8;
+      LAPACKE_xerbla("LAPACKE_dgtsv_work", info);
+      return info;
     }
-  }
-#endif
-  /* Additional scalars initializations for work arrays */
-  if (LAPACKE_lsame(job, 's') || LAPACKE_lsame(job, 'b')) {
-    lwork = MAX(1, 6 * n);
+    /* Allocate memory for temporary array(s) */
+    b_t = (double*)LAPACKE_malloc(sizeof(double) * ldb_t * MAX(1, nrhs));
+    if (b_t == NULL) {
+      info = LAPACK_TRANSPOSE_MEMORY_ERROR;
+      goto exit_level_0;
+    }
+    /* Transpose input matrices */
+    LAPACKE_dge_trans(matrix_layout, n, nrhs, b, ldb, b_t, ldb_t);
+    /* Call LAPACK function and adjust info */
+    F77_NAME(dgtsv)(&n, &nrhs, dl, d, du, b_t, &ldb_t, &info);
+    if (info < 0) {
+      info = info - 1;
+    }
+    /* Transpose output matrices */
+    LAPACKE_dge_trans(LAPACK_COL_MAJOR, n, nrhs, b_t, ldb_t, b, ldb);
+    /* Release memory and exit */
+    LAPACKE_free(b_t);
+  exit_level_0:
+    if (info == LAPACK_TRANSPOSE_MEMORY_ERROR) {
+      LAPACKE_xerbla("LAPACKE_dgtsv_work", info);
+    }
   } else {
-    lwork = 1;
-  }
-  /* Allocate memory for working array(s) */
-  work = (double*)LAPACKE_malloc(sizeof(double) * lwork);
-  if (work == NULL) {
-    info = LAPACK_WORK_MEMORY_ERROR;
-    goto exit_level_0;
-  }
-  /* Call middle-level interface */
-  info = LAPACKE_dggbal_work(matrix_layout, job, n, a, lda, b, ldb, ilo, ihi,
-                             lscale, rscale, work);
-  /* Release memory and exit */
-  LAPACKE_free(work);
-exit_level_0:
-  if (info == LAPACK_WORK_MEMORY_ERROR) {
-    LAPACKE_xerbla("LAPACKE_dggbal", info);
+    info = -1;
+    LAPACKE_xerbla("LAPACKE_dgtsv_work", info);
   }
   return info;
 }

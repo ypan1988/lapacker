@@ -31,11 +31,10 @@
 * Generated November 2015
 *****************************************************************************/
 
-#include "lapacke_utils.h"
-
-lapack_int LAPACKE_dggglm(int matrix_layout, lapack_int n, lapack_int m,
-                          lapack_int p, double* a, lapack_int lda, double* b,
-                          lapack_int ldb, double* d, double* x, double* y) {
+inline lapack_int LAPACKE_dggglm(int matrix_layout, lapack_int n, lapack_int m,
+                                 lapack_int p, double* a, lapack_int lda,
+                                 double* b, lapack_int ldb, double* d,
+                                 double* x, double* y) {
   lapack_int info = 0;
   lapack_int lwork = -1;
   double* work = NULL;

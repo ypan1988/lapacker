@@ -31,12 +31,11 @@
 * Generated November 2015
 *****************************************************************************/
 
-#include "lapacke_utils.h"
-
-lapack_int LAPACKE_dgglse_work(int matrix_layout, lapack_int m, lapack_int n,
-                               lapack_int p, double* a, lapack_int lda,
-                               double* b, lapack_int ldb, double* c, double* d,
-                               double* x, double* work, lapack_int lwork) {
+inline lapack_int LAPACKE_dgglse_work(int matrix_layout, lapack_int m,
+                                      lapack_int n, lapack_int p, double* a,
+                                      lapack_int lda, double* b, lapack_int ldb,
+                                      double* c, double* d, double* x,
+                                      double* work, lapack_int lwork) {
   lapack_int info = 0;
   if (matrix_layout == LAPACK_COL_MAJOR) {
     /* Call LAPACK function and adjust info */

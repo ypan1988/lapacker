@@ -31,13 +31,12 @@
 * Generated November 2015
 *****************************************************************************/
 
-#include "lapacke_utils.h"
-
-lapack_int LAPACKE_dgghrd_work(int matrix_layout, char compq, char compz,
-                               lapack_int n, lapack_int ilo, lapack_int ihi,
-                               double* a, lapack_int lda, double* b,
-                               lapack_int ldb, double* q, lapack_int ldq,
-                               double* z, lapack_int ldz) {
+inline lapack_int LAPACKE_dgghrd_work(int matrix_layout, char compq, char compz,
+                                      lapack_int n, lapack_int ilo,
+                                      lapack_int ihi, double* a, lapack_int lda,
+                                      double* b, lapack_int ldb, double* q,
+                                      lapack_int ldq, double* z,
+                                      lapack_int ldz) {
   lapack_int info = 0;
   if (matrix_layout == LAPACK_COL_MAJOR) {
     /* Call LAPACK function and adjust info */

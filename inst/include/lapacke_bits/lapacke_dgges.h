@@ -31,14 +31,13 @@
 * Generated November 2015
 *****************************************************************************/
 
-#include "lapacke_utils.h"
-
-lapack_int LAPACKE_dgges(int matrix_layout, char jobvsl, char jobvsr, char sort,
-                         LAPACK_D_SELECT3 selctg, lapack_int n, double* a,
-                         lapack_int lda, double* b, lapack_int ldb,
-                         lapack_int* sdim, double* alphar, double* alphai,
-                         double* beta, double* vsl, lapack_int ldvsl,
-                         double* vsr, lapack_int ldvsr) {
+inline lapack_int LAPACKE_dgges(int matrix_layout, char jobvsl, char jobvsr,
+                                char sort, LAPACK_D_SELECT3 selctg,
+                                lapack_int n, double* a, lapack_int lda,
+                                double* b, lapack_int ldb, lapack_int* sdim,
+                                double* alphar, double* alphai, double* beta,
+                                double* vsl, lapack_int ldvsl, double* vsr,
+                                lapack_int ldvsr) {
   lapack_int info = 0;
   lapack_int lwork = -1;
   lapack_logical* bwork = NULL;

@@ -31,11 +31,10 @@
 * Generated November 2015
 *****************************************************************************/
 
-#include "lapacke_utils.h"
-
-lapack_int LAPACKE_dggrqf(int matrix_layout, lapack_int m, lapack_int p,
-                          lapack_int n, double* a, lapack_int lda, double* taua,
-                          double* b, lapack_int ldb, double* taub) {
+inline lapack_int LAPACKE_dggrqf(int matrix_layout, lapack_int m, lapack_int p,
+                                 lapack_int n, double* a, lapack_int lda,
+                                 double* taua, double* b, lapack_int ldb,
+                                 double* taub) {
   lapack_int info = 0;
   lapack_int lwork = -1;
   double* work = NULL;
