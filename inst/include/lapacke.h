@@ -272,6 +272,22 @@ int LAPACKE_get_nancheck();
 #include "lapacke_bits/lapacke_dggqrf.h"
 #include "lapacke_bits/lapacke_dggrqf.h"
 
+//* Double precision General Tridiagonal matrices  -> DGT
+
+#include "lapacke_bits/lapacke_dgtcon_work.h"
+#include "lapacke_bits/lapacke_dgtrfs_work.h"
+#include "lapacke_bits/lapacke_dgtsv_work.h"
+#include "lapacke_bits/lapacke_dgtsvx_work.h"
+#include "lapacke_bits/lapacke_dgttrf_work.h"
+#include "lapacke_bits/lapacke_dgttrs_work.h"
+
+#include "lapacke_bits/lapacke_dgtcon.h"
+#include "lapacke_bits/lapacke_dgtrfs.h"
+#include "lapacke_bits/lapacke_dgtsv.h"
+#include "lapacke_bits/lapacke_dgtsvx.h"
+#include "lapacke_bits/lapacke_dgttrf.h"
+#include "lapacke_bits/lapacke_dgttrs.h"
+
 #include "lapacke_bits/lapacke_nancheck.h"
 
 #ifdef __cplusplus
