@@ -288,6 +288,16 @@ int LAPACKE_get_nancheck();
 #include "lapacke_bits/lapacke_dgttrf.h"
 #include "lapacke_bits/lapacke_dgttrs.h"
 
+#include "lapacke_bits/lapacke_dpotrf_work.h"
+
+#include "lapacke_bits/lapacke_dpotrf.h"
+
+#include "lapacke_bits/lapacke_zgesv_work.h"
+#include "lapacke_bits/lapacke_zgetrf_work.h"
+
+#include "lapacke_bits/lapacke_zgesv.h"
+#include "lapacke_bits/lapacke_zgetrf.h"
+
 #include "lapacke_bits/lapacke_nancheck.h"
 
 #ifdef __cplusplus
